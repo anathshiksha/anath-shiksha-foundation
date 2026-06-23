@@ -1,0 +1,5 @@
+{
+  "name": "anath-shiksha-foundation",
+  "buildCommand": "",
+  "startCommand": "node setup-admin.js && node server.js"
+}

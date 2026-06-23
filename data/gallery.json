@@ -1,0 +1,30 @@
+[
+  {
+    "id": "2f84eefb-fd16-42f1-988b-2b6558fdcef4",
+    "url": "/images/gallery1.jpg",
+    "caption": "Annual Education Drive 2024",
+    "category": "General",
+    "uploadedAt": "2026-06-23T18:36:20.919Z"
+  },
+  {
+    "id": "f97d47d9-9769-46e5-b70c-f37ccaa019fd",
+    "url": "/images/gallery2.jpg",
+    "caption": "Meal Distribution Camp",
+    "category": "General",
+    "uploadedAt": "2026-06-23T18:36:20.920Z"
+  },
+  {
+    "id": "2c7ac021-5bda-4215-9997-d6aa62f385f3",
+    "url": "/images/gallery3.jpg",
+    "caption": "Village Mentorship Programme",
+    "category": "General",
+    "uploadedAt": "2026-06-23T18:36:20.920Z"
+  },
+  {
+    "id": "d6116146-3543-4584-910a-552addcb9b14",
+    "url": "/images/gallery4.jpg",
+    "caption": "Marriage Ceremony Support",
+    "category": "General",
+    "uploadedAt": "2026-06-23T18:36:20.920Z"
+  }
+]

@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel — Anath Shiksha Foundation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="/css/admin.css"/>
+</head>
+<body>
+
+<!-- ════ LOGIN SCREEN ════ -->
+<div id="loginScreen" class="login-screen">
+  <div class="login-card">
+    <div class="login-logo">🌟</div>
+    <h2>Admin Login</h2>
+    <p>Anath Shiksha Foundation</p>
+    <form id="loginForm">
+      <div class="field-group">
+        <label>Username</label>
+        <div class="input-icon-wrap">
+          <i class="fas fa-user"></i>
+          <input type="text" id="loginUser" placeholder="admin" autocomplete="username" required/>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Password</label>
+        <div class="input-icon-wrap">
+          <i class="fas fa-lock"></i>
+          <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password" required/>
+          <button type="button" class="toggle-pass" id="togglePass"><i class="fas fa-eye"></i></button>
+        </div>
+      </div>
+      <div id="loginError" class="login-error" style="display:none"></div>
+      <button type="submit" class="btn-login" id="loginBtn">
+        <i class="fas fa-sign-in-alt"></i> Login
+      </button>
+    </form>
+    <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Back to Website</a>
+  </div>
+</div>
+
+<!-- ════ ADMIN DASHBOARD ════ -->
+<div id="adminDash" class="admin-layout" style="display:none">
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <span class="sidebar-logo">🌟</span>
+      <div>
+        <div class="sidebar-title">Anath Shiksha</div>
+        <div class="sidebar-sub">Admin Panel</div>
+      </div>
+      <button class="sidebar-close" id="sidebarClose"><i class="fas fa-times"></i></button>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-tab="dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+      <a href="#" class="nav-item" data-tab="content"><i class="fas fa-edit"></i> Edit Content</a>
+      <a href="#" class="nav-item" data-tab="events"><i class="fas fa-calendar-alt"></i> Events</a>
+      <a href="#" class="nav-item" data-tab="gallery"><i class="fas fa-images"></i> Gallery</a>
+      <a href="#" class="nav-item" data-tab="donors"><i class="fas fa-heart"></i> Donors</a>
+      <a href="#" class="nav-item" data-tab="applications"><i class="fas fa-users"></i> Applications</a>
+      <a href="#" class="nav-item" data-tab="settings"><i class="fas fa-cog"></i> Settings</a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="/" target="_blank" class="sidebar-link"><i class="fas fa-external-link-alt"></i> View Website</a>
+      <button class="btn-logout" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="admin-main">
+    <!-- Top bar -->
+    <header class="admin-topbar">
+      <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+      <div class="topbar-title" id="topbarTitle">Dashboard</div>
+      <div class="topbar-right">
+        <span class="admin-user"><i class="fas fa-user-circle"></i> <span id="adminUsername">admin</span></span>
+      </div>
+    </header>
+
+    <!-- Tab: Dashboard -->
+    <section class="tab-panel active" id="tab-dashboard">
+      <h2 class="panel-title">Dashboard Overview</h2>
+      <div class="stats-cards" id="dashStats">
+        <div class="dash-stat">
+          <div class="dash-stat-icon" style="background:#FF6B3520;color:#FF6B35"><i class="fas fa-heart"></i></div>
+          <div><div class="dash-stat-num" id="dsTotalDonors">—</div><div class="dash-stat-label">Total Donors</div></div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-icon" style="background:#4CAF5020;color:#4CAF50"><i class="fas fa-rupee-sign"></i></div>
+          <div><div class="dash-stat-num" id="dsTotalAmount">—</div><div class="dash-stat-label">Total Raised</div></div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-icon" style="background:#2196F320;color:#2196F3"><i class="fas fa-calendar"></i></div>
+          <div><div class="dash-stat-num" id="dsEvents">—</div><div class="dash-stat-label">Active Events</div></div>
+        </div>
+        <div class="dash-stat">
+          <div class="dash-stat-icon" style="background:#9C27B020;color:#9C27B0"><i class="fas fa-trophy"></i></div>
+          <div><div class="dash-stat-num" id="dsTopDonation">—</div><div class="dash-stat-label">Highest Donation</div></div>
+        </div>
+      </div>
+      <div class="recent-donors-section">
+        <h3>Recent Donations</h3>
+        <div class="table-wrap"><table class="data-table" id="recentDonorsTable">
+          <thead><tr><th>#</th><th>Name</th><th>Amount</th><th>Date</th><th>Message</th></tr></thead>
+          <tbody></tbody>
+        </table></div>
+      </div>
+    </section>
+
+    <!-- Tab: Content -->
+    <section class="tab-panel" id="tab-content">
+      <h2 class="panel-title">Edit Website Content</h2>
+      <div class="content-sections">
+
+        <!-- Hero -->
+        <div class="content-block">
+          <h3><i class="fas fa-home"></i> Hero Section</h3>
+          <div class="form-grid">
+            <div class="field-group full">
+              <label>Title</label>
+              <input type="text" id="c_heroTitle" placeholder="Main heading"/>
+            </div>
+            <div class="field-group full">
+              <label>Subtitle</label>
+              <input type="text" id="c_heroSubtitle" placeholder="Subtitle text"/>
+            </div>
+            <div class="field-group full">
+              <label>Tagline</label>
+              <input type="text" id="c_heroTagline" placeholder="Tagline (italic)"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- About -->
+        <div class="content-block">
+          <h3><i class="fas fa-info-circle"></i> About Section</h3>
+          <div class="form-grid">
+            <div class="field-group full">
+              <label>Description</label>
+              <textarea id="c_aboutDesc" rows="4" placeholder="About text..."></textarea>
+            </div>
+            <div class="field-group">
+              <label>Vision</label>
+              <textarea id="c_vision" rows="3"></textarea>
+            </div>
+            <div class="field-group">
+              <label>Mission</label>
+              <textarea id="c_mission" rows="3"></textarea>
+            </div>
+            <div class="field-group">
+              <label>Founded Year</label>
+              <input type="text" id="c_founded" placeholder="2018"/>
+            </div>
+            <div class="field-group">
+              <label>Certification Badge</label>
+              <input type="text" id="c_registered" placeholder="80G & 12A Certified"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact -->
+        <div class="content-block">
+          <h3><i class="fas fa-address-card"></i> Contact Details</h3>
+          <div class="form-grid">
+            <div class="field-group full">
+              <label>Address</label>
+              <input type="text" id="c_address" placeholder="Full address"/>
+            </div>
+            <div class="field-group">
+              <label>Phone</label>
+              <input type="tel" id="c_phone" placeholder="+91-9876543210"/>
+            </div>
+            <div class="field-group">
+              <label>Email</label>
+              <input type="email" id="c_email" placeholder="info@example.org"/>
+            </div>
+            <div class="field-group">
+              <label>Facebook URL</label>
+              <input type="url" id="c_facebook" placeholder="https://facebook.com/..."/>
+            </div>
+            <div class="field-group">
+              <label>Instagram URL</label>
+              <input type="url" id="c_instagram" placeholder="https://instagram.com/..."/>
+            </div>
+            <div class="field-group">
+              <label>Twitter URL</label>
+              <input type="url" id="c_twitter" placeholder="https://twitter.com/..."/>
+            </div>
+            <div class="field-group">
+              <label>YouTube URL</label>
+              <input type="url" id="c_youtube" placeholder="https://youtube.com/..."/>
+            </div>
+          </div>
+        </div>
+
+        <div class="save-bar">
+          <button class="btn-save" id="saveContentBtn"><i class="fas fa-save"></i> Save All Changes</button>
+          <span class="save-status" id="saveStatus"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab: Events -->
+    <section class="tab-panel" id="tab-events">
+      <div class="panel-header">
+        <h2 class="panel-title">Manage Events</h2>
+        <button class="btn-add" id="addEventBtn"><i class="fas fa-plus"></i> Add Event</button>
+      </div>
+      <div id="eventsTableWrap" class="table-wrap">
+        <table class="data-table" id="eventsTable">
+          <thead>
+            <tr><th>Title</th><th>Date</th><th>Category</th><th>Venue</th><th>Actions</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Tab: Donors -->
+    <section class="tab-panel" id="tab-donors">
+      <h2 class="panel-title">All Donors</h2>
+      <div class="table-wrap">
+        <table class="data-table" id="donorsTable">
+          <thead>
+            <tr><th>#</th><th>Name / Photo</th><th>Amount</th><th>Email</th><th>Method</th><th>Date</th><th>Public</th><th>Confirm</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Tab: Gallery -->
+    <section class="tab-panel" id="tab-gallery">
+      <div class="panel-header">
+        <h2 class="panel-title">Photo Gallery</h2>
+      </div>
+
+      <!-- Upload form -->
+      <div class="content-block" style="margin-bottom:1.5rem">
+        <h3><i class="fas fa-cloud-upload-alt"></i> Upload New Photo</h3>
+        <form id="galleryUploadForm">
+          <div class="gallery-upload-area" id="galleryDropZone">
+            <input type="file" id="galleryPhotoInput" accept="image/*" style="display:none"/>
+            <div class="gallery-drop-inner" id="galleryDropInner">
+              <i class="fas fa-image"></i>
+              <p>Click or drag &amp; drop a photo here</p>
+              <span>JPG, PNG, GIF, WebP · Max 5 MB</span>
+            </div>
+            <img id="galleryUploadPreview" src="" alt="" style="display:none; max-height:200px; border-radius:8px; margin:0 auto;"/>
+          </div>
+          <div class="form-grid" style="margin-top:1rem">
+            <div class="field-group">
+              <label>Caption</label>
+              <input type="text" id="galCaption" placeholder="e.g. Annual Education Drive 2025"/>
+            </div>
+            <div class="field-group">
+              <label>Category</label>
+              <select id="galCategory">
+                <option>General</option>
+                <option>Education</option>
+                <option>Nutrition</option>
+                <option>Mentorship</option>
+                <option>Events</option>
+                <option>Volunteers</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn-save" id="galUploadBtn" style="margin-top:.5rem">
+            <i class="fas fa-upload"></i> Upload to Gallery
+          </button>
+        </form>
+      </div>
+
+      <!-- Gallery grid -->
+      <div class="gallery-admin-stats" id="galStats"></div>
+      <div class="gallery-admin-grid" id="galleryAdminGrid">
+        <div style="text-align:center;color:#999;padding:3rem;grid-column:1/-1">
+          <i class="fas fa-spinner fa-spin" style="font-size:2rem"></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab: Applications -->
+    <section class="tab-panel" id="tab-applications">
+      <h2 class="panel-title">Join Us — Applications</h2>
+      <div class="app-filter-row">
+        <button class="app-filter-btn active" data-filter="all">All</button>
+        <button class="app-filter-btn" data-filter="Internship">Internship</button>
+        <button class="app-filter-btn" data-filter="Brand Ambassador">Brand Ambassador</button>
+        <button class="app-filter-btn" data-filter="Volunteer">Volunteer</button>
+      </div>
+      <div class="table-wrap" style="margin-top:1rem">
+        <table class="data-table" id="applicationsTable">
+          <thead>
+            <tr><th>#</th><th>Name</th><th>Role</th><th>Email</th><th>Phone</th><th>City</th><th>Date</th><th>Status</th><th>Actions</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Tab: Settings -->
+    <section class="tab-panel" id="tab-settings">
+      <h2 class="panel-title">Settings</h2>
+      <div class="content-block">
+        <h3><i class="fas fa-key"></i> Change Password</h3>
+        <div class="form-grid" style="max-width:440px">
+          <div class="field-group full">
+            <label>New Password</label>
+            <input type="password" id="newPass" placeholder="Min. 6 characters"/>
+          </div>
+          <div class="field-group full">
+            <label>Confirm Password</label>
+            <input type="password" id="confirmPass" placeholder="Re-enter password"/>
+          </div>
+        </div>
+        <button class="btn-save" id="changePassBtn"><i class="fas fa-key"></i> Change Password</button>
+      </div>
+    </section>
+  </div><!-- end admin-main -->
+</div><!-- end adminDash -->
+
+<!-- ════ EVENT MODAL ════ -->
+<div id="eventModal" class="modal-overlay" style="display:none">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="eventModalTitle">Add Event</h3>
+      <button class="modal-close" id="eventModalClose"><i class="fas fa-times"></i></button>
+    </div>
+    <form id="eventForm">
+      <input type="hidden" id="eventId"/>
+      <div class="form-grid">
+        <div class="field-group full">
+          <label>Event Title *</label>
+          <input type="text" id="evTitle" required placeholder="Event name"/>
+        </div>
+        <div class="field-group">
+          <label>Date *</label>
+          <input type="date" id="evDate" required/>
+        </div>
+        <div class="field-group">
+          <label>Time</label>
+          <input type="text" id="evTime" placeholder="10:00 AM"/>
+        </div>
+        <div class="field-group">
+          <label>Category</label>
+          <select id="evCategory">
+            <option>Education</option>
+            <option>Nutrition</option>
+            <option>Mentorship</option>
+            <option>Fundraiser</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label>Venue</label>
+          <input type="text" id="evVenue" placeholder="Location / Online"/>
+        </div>
+        <div class="field-group full">
+          <label>Description</label>
+          <textarea id="evDescription" rows="4" placeholder="Event details..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-cancel" id="eventModalCancel">Cancel</button>
+        <button type="submit" class="btn-save" id="eventSaveBtn"><i class="fas fa-save"></i> Save Event</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ════ APPLICATION DETAIL MODAL ════ -->
+<div id="appDetailModal" class="modal-overlay" style="display:none">
+  <div class="modal-box" style="max-width:600px">
+    <div class="modal-header">
+      <h3 id="appDetailTitle">Application Details</h3>
+      <button class="modal-close" id="appDetailClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="app-detail-grid">
+      <div class="app-detail-item"><label>Name</label><p id="adName">—</p></div>
+      <div class="app-detail-item"><label>Role</label><p id="adRole">—</p></div>
+      <div class="app-detail-item"><label>Email</label><p id="adEmail">—</p></div>
+      <div class="app-detail-item"><label>Phone</label><p id="adPhone">—</p></div>
+      <div class="app-detail-item"><label>City</label><p id="adCity">—</p></div>
+      <div class="app-detail-item"><label>Qualification</label><p id="adQual">—</p></div>
+      <div class="app-detail-item"><label>Availability</label><p id="adAvail">—</p></div>
+      <div class="app-detail-item"><label>Social / LinkedIn</label><p id="adSocial">—</p></div>
+    </div>
+    <div class="app-detail-item" style="margin-bottom:.5rem"><label>Why they want to join</label></div>
+    <div class="app-detail-why" id="adWhy">—</div>
+    <div class="modal-footer">
+      <button class="btn-cancel" id="appDetailClose2">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ CONFIRM MODAL ════ -->
+<div id="confirmModal" class="modal-overlay" style="display:none">
+  <div class="modal-box" style="max-width:380px;text-align:center">
+    <div style="font-size:3rem;margin-bottom:1rem">⚠️</div>
+    <h3 id="confirmMsg">Are you sure?</h3>
+    <div class="modal-footer" style="justify-content:center;margin-top:1.5rem">
+      <button class="btn-cancel" id="confirmNo">Cancel</button>
+      <button class="btn-danger" id="confirmYes">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- Admin Toast -->
+<div id="adminToast" class="admin-toast"></div>
+
+<script src="/js/admin.js"></script>
+</body>
+</html>
