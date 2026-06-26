@@ -1,0 +1,161 @@
+{
+  "hero": {
+    "title": "Anath Shiksha Foundation",
+    "subtitle": "Transforming Lives Through Education, Compassion & Hope",
+    "tagline": "Every child deserves a bright future — we make it possible."
+  },
+  "about": {
+    "description": "Anath Shiksha Foundation is a registered NGO dedicated to uplifting the most vulnerable sections of society. Founded with a vision of an equitable India, we work tirelessly to ensure that no orphan, no hungry child, no village student, and no underprivileged girl is left behind. Through education, nutrition, mentorship, and community support, we are writing stories of hope every day.",
+    "vision": "An India where every child — regardless of background — grows up educated, nourished, and empowered.",
+    "mission": "To provide free quality education in top schools to orphaned children, nutritious meals to the needy, career mentorship to village youth, and dignified marriage support to poor girls.",
+    "founded": "2018",
+    "registered": "80G & 12A Certified NGO"
+  },
+  "stats": {
+    "children": "2,400+",
+    "schools": "47",
+    "meals": "1,20,000+",
+    "villages": "85",
+    "marriages": "340+",
+    "volunteers": "500+"
+  },
+  "programs": [
+    {
+      "id": "1",
+      "icon": "🎓",
+      "title": "Free Education in Top Schools",
+      "description": "We sponsor complete schooling — from Class 1 to Class 12 — for orphaned children in CBSE and ICSE schools. This includes admission fees, uniforms, books, stationery, and extra-curricular activities.",
+      "impact": "2,400+ children enrolled",
+      "color": "#FF6B35"
+    },
+    {
+      "id": "2",
+      "icon": "🍱",
+      "title": "Feed the Needy",
+      "description": "Our daily meal programs run across 85+ villages and urban slums. We distribute nutritious meals twice a day, ensuring that no child sleeps hungry. Our nutrition camps address acute malnutrition.",
+      "impact": "1,20,000+ meals served",
+      "color": "#4CAF50"
+    },
+    {
+      "id": "3",
+      "icon": "🌱",
+      "title": "Mentorship for Village Students",
+      "description": "We connect rural students with professionals, IIT/IIM alumni, and industry mentors. Our programs include career counselling, digital literacy, NEET/JEE coaching support, and skill development workshops.",
+      "impact": "85+ villages reached",
+      "color": "#2196F3"
+    },
+    {
+      "id": "4",
+      "icon": "💍",
+      "title": "Poor Girls Marriage Support",
+      "description": "We provide dignified marriage assistance — including financial support, venue, essentials and legal documentation — to girls from Below Poverty Line (BPL) families, so their families don't fall into debt.",
+      "impact": "340+ families supported",
+      "color": "#E91E63"
+    }
+  ],
+  "contact": {
+    "address": "63, Salpur Dhautal Dist-Gonda Uttar Pradesh 271125",
+    "phone": "+91-7752923441",
+    "email": "anathshiksha@gamil.com",
+    "facebook": "#",
+    "instagram": "#",
+    "twitter": "#",
+    "youtube": "#"
+  },
+  "gallery": [
+    {
+      "url": "/images/gallery1.jpg",
+      "caption": "Annual Education Drive 2024"
+    },
+    {
+      "url": "/images/gallery2.jpg",
+      "caption": "Meal Distribution Camp"
+    },
+    {
+      "url": "/images/gallery3.jpg",
+      "caption": "Village Mentorship Programme"
+    },
+    {
+      "url": "/images/gallery4.jpg",
+      "caption": "Marriage Ceremony Support"
+    }
+  ],
+  "testimonials": [
+    {
+      "name": "Ravi Kumar",
+      "role": "Beneficiary – Class 10, Delhi Public School",
+      "quote": "I lost my parents at age 6. Anath Shiksha Foundation gave me a family, an education, and a future. Today I want to become a doctor.",
+      "avatar": "R"
+    },
+    {
+      "name": "Meera Devi",
+      "role": "Village Mentorship Beneficiary, Rajasthan",
+      "quote": "Because of the mentorship program, I cracked NEET this year. First person from my village to study medicine!",
+      "avatar": "M"
+    },
+    {
+      "name": "Suresh Patel",
+      "role": "Donor & Volunteer",
+      "quote": "I donate every month because I've seen the impact first-hand. These children are transformed. This foundation truly changes lives.",
+      "avatar": "S"
+    }
+  ],
+  "ceo": {
+    "name": "Abhinav Singh",
+    "role": "CEO & Founder",
+    "phone": "+917752923441",
+    "bio": "Abhinav Singh founded Anath Shiksha Foundation with a simple belief: no child should be denied education because of circumstances beyond their control. Under his leadership, the foundation has grown from a small local initiative to a pan-India movement impacting thousands of lives."
+  },
+  "scholarship": {
+    "title": "Anath Shiksha Scholarship Program",
+    "tagline": "Rewarding Merit. Empowering Futures.",
+    "description": "We believe every brilliant child deserves a chance — regardless of financial background. Our annual scholarship exam identifies the brightest students from underprivileged families and awards them full scholarships to pursue their dreams.",
+    "lastDate": "2025-09-30",
+    "examDate": "2025-10-15",
+    "resultDate": "2025-11-01",
+    "exams": [
+      {
+        "id": "E1",
+        "name": "ASF Junior Scholar",
+        "classes": "Class 6 – 8",
+        "award": "₹10,000/year",
+        "seats": 50,
+        "subjects": "Maths, Science, English, General Knowledge",
+        "description": "For middle school students from BPL / OBC / SC / ST families. Top 50 rankers receive full scholarship for the academic year."
+      },
+      {
+        "id": "E2",
+        "name": "ASF Senior Scholar",
+        "classes": "Class 9 – 10",
+        "award": "₹20,000/year",
+        "seats": 30,
+        "subjects": "Maths, Science, Social Studies, English, Reasoning",
+        "description": "For high school students. Top 30 rankers receive scholarship + mentorship by IIT/NIT alumni."
+      },
+      {
+        "id": "E3",
+        "name": "ASF Merit Excellence",
+        "classes": "Class 11 – 12",
+        "award": "₹50,000/year",
+        "seats": 20,
+        "subjects": "Physics, Chemistry, Maths / Biology + English + Aptitude",
+        "description": "For senior secondary students targeting engineering or medical. Top 20 receive full scholarship + coaching support."
+      }
+    ],
+    "eligibility": [
+      "Student must be from a family with annual income below ₹2,50,000",
+      "Student should be studying in a government or low-fee private school",
+      "Orphaned children get 10 bonus marks automatically",
+      "80% attendance in last academic year required",
+      "One application per student per year"
+    ],
+    "process": [
+      "Fill the online application form below",
+      "Receive exam hall ticket on your email/phone",
+      "Appear for the written exam at your nearest center",
+      "Results announced — top rankers receive scholarship certificate",
+      "Scholarship amount transferred directly to student's bank account"
+    ]
+  },
+  "scholarshipEnabled": true
+}
