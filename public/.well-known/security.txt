@@ -1,0 +1,5 @@
+Contact: mailto:info@anathshiksha.org
+Contact: +91-7752923441
+Preferred-Languages: en, hi
+Canonical: https://anathshiksha.org/.well-known/security.txt
+Policy: Report security vulnerabilities to info@anathshiksha.org

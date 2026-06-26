@@ -212,6 +212,13 @@ async function loadContent() {
     // CEO
     if (c.ceo) renderCEO(c.ceo);
 
+    // Scholarship visibility toggle
+    const scholSection = document.getElementById('scholarship');
+    const scholNavLink = document.querySelector('a[href="#scholarship"]');
+    const scholEnabled = c.scholarshipEnabled !== false; // default true
+    if (scholSection) scholSection.style.display = scholEnabled ? '' : 'none';
+    if (scholNavLink) scholNavLink.closest('li').style.display = scholEnabled ? '' : 'none';
+
     // Contact
     if (c.contact) {
       setTxt('contactAddress', c.contact.address);
@@ -446,23 +453,36 @@ function renderDonors(donors) {
 let selectedAmount  = 1000;
 let currentPhotoFile = null;
 
-// Amount buttons
-document.querySelectorAll('.amt-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.amt-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    selectedAmount = parseInt(btn.dataset.amount);
-    const ca = document.getElementById('customAmount');
-    if (ca) ca.value = '';
-    updateDonateDisplay();
+// Amount buttons — hero widget (.hero-amt-btn) + modal (.amt-btn)
+function wireAmountButtons() {
+  // Hero amount buttons
+  document.querySelectorAll('.hero-amt-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.hero-amt-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedAmount = parseInt(btn.dataset.amount);
+      const ca = document.getElementById('customAmount');
+      if (ca) ca.value = '';
+      updateDonateDisplay();
+    });
   });
-});
+  // Modal amount buttons (inside donate modal)
+  document.querySelectorAll('.amt-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.amt-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedAmount = parseInt(btn.dataset.amount);
+      updateDonateDisplay();
+    });
+  });
+}
+wireAmountButtons();
 
 document.getElementById('customAmount')?.addEventListener('input', e => {
   const val = parseInt(e.target.value);
   if (val > 0) {
     selectedAmount = val;
-    document.querySelectorAll('.amt-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.hero-amt-btn, .amt-btn').forEach(b => b.classList.remove('active'));
     updateDonateDisplay();
   }
 });
@@ -520,8 +540,9 @@ function getDonorFields() {
 
 function validateDonorFields(f) {
   if (!f.name)  { showToast('Please enter your name', 'error'); return false; }
-  if (!f.email) { showToast('Please enter your email', 'error'); return false; }
-  if (selectedAmount < 1) { showToast('Please select a donation amount', 'error'); return false; }
+  if (!f.email) { showToast('Please enter your email (needed for receipt)', 'error'); return false; }
+  const amt = Number(selectedAmount);
+  if (!amt || amt < 1) { showToast('Please select or enter a valid donation amount', 'error'); return false; }
   return true;
 }
 
@@ -529,14 +550,14 @@ function validateDonorFields(f) {
 function buildFormData(extra = {}) {
   const fd = new FormData();
   const f  = getDonorFields();
-  fd.append('name',          f.name);
-  fd.append('email',         f.email);
-  fd.append('phone',         f.phone);
-  fd.append('message',       f.message);
-  fd.append('isPublic',      f.isPublic);
-  fd.append('amount',        selectedAmount);
+  fd.append('name',     f.name);
+  fd.append('email',    f.email);
+  fd.append('phone',    f.phone);
+  fd.append('message',  f.message);
+  fd.append('isPublic', String(f.isPublic));
+  fd.append('amount',   String(Number(selectedAmount) || 0));
   if (currentPhotoFile) fd.append('photo', currentPhotoFile);
-  Object.entries(extra).forEach(([k, v]) => fd.append(k, v));
+  Object.entries(extra).forEach(([k, v]) => fd.append(k, String(v ?? '')));
   return fd;
 }
 
@@ -678,8 +699,10 @@ function clearDonateForm() {
   document.getElementById('photoUploadBtn') && (document.getElementById('photoUploadBtn').style.display = 'flex');
   document.getElementById('publicDonor') && (document.getElementById('publicDonor').checked = true);
   selectedAmount = 1000;
+  document.querySelectorAll('.hero-amt-btn').forEach(b => b.classList.toggle('active', b.dataset.amount === '1000'));
   document.querySelectorAll('.amt-btn').forEach(b => b.classList.toggle('active', b.dataset.amount === '1000'));
   updateDonateDisplay();
+  closeDonateModal();
 }
 
 function showSuccessModal(name, amount, isUpi = false) {
@@ -695,18 +718,94 @@ function showSuccessModal(name, amount, isUpi = false) {
 function renderCEO(ceo) {
   if (!ceo) return;
   const setText = (id, v) => { const el = document.getElementById(id); if (el && v) el.textContent = v; };
-  setText('ceoName', ceo.name);
-  setText('ceoRole', ceo.role);
-  setText('ceoBio',  ceo.bio);
-  const ph = document.getElementById('ceoPhone');
-  if (ph && ceo.phone) { ph.href = 'tel:' + ceo.phone.replace(/[^+\d]/g,''); ph.querySelector('i').nextSibling.textContent = ' ' + ceo.phone; }
+
+  // About page CEO card
+  setText('ceoAboutName', ceo.name);
+  setText('ceoAboutRole', (ceo.role || 'CEO & Founder') + ', Anath Shiksha Foundation');
+  setText('ceoAboutBio',  ceo.bio);
+  setText('ceoAboutInitial', (ceo.name || 'A')[0].toUpperCase());
+  const aboutPhone = document.getElementById('ceoAboutPhone');
+  if (aboutPhone && ceo.phone) {
+    aboutPhone.href = 'tel:' + ceo.phone.replace(/[^+\d]/g,'');
+    aboutPhone.innerHTML = `<i class="fas fa-phone-alt"></i> ${ceo.phone}`;
+  }
+  const waBtn = document.querySelector('.ceo-about-actions .btn-whatsapp');
+  if (waBtn && ceo.phone) {
+    const num = ceo.phone.replace(/[^0-9]/g,'');
+    waBtn.href = 'https://wa.me/' + (num.startsWith('91') ? num : '91' + num);
+  }
+  // CEO photo (About card)
+  const photoWrap = document.getElementById('ceoAboutPhoto');
+  if (photoWrap && ceo.photo) {
+    photoWrap.innerHTML = `<img src="${ceo.photo}" alt="${ceo.name || 'CEO'}" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/>`;
+  }
 }
 
+// ── Donate Modal ──────────────────────────────────────
+function openDonateModal() {
+  document.getElementById('donateModal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  const qrTab = document.querySelector('.pay-tab[data-method="qr"]');
+  if (qrTab?.classList.contains('active')) refreshQR();
+}
+function closeDonateModal() {
+  document.getElementById('donateModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+// All donate trigger buttons
+document.getElementById('openDonateModal')?.addEventListener('click', openDonateModal);   // hero
+document.getElementById('closeDonateModal')?.addEventListener('click', closeDonateModal);
+document.getElementById('donateModal')?.addEventListener('click', e => { if (e.target === e.currentTarget) closeDonateModal(); });
+document.getElementById('navDonateBtn')?.addEventListener('click', openDonateModal);       // navbar
+document.getElementById('impactDonateBtn')?.addEventListener('click', e => { e.preventDefault(); openDonateModal(); }); // impact strip
+document.querySelectorAll('.footer-donate-btn').forEach(b => b.addEventListener('click', openDonateModal)); // footer
+
 // ── Contact form ─────────────────────────────────────
-document.getElementById('contactForm')?.addEventListener('submit', e => {
+function getContactWhatsAppUrl() {
+  const name    = (document.getElementById('cfName')?.value    || '').trim();
+  const phone   = (document.getElementById('cfPhone')?.value   || '').trim();
+  const email   = (document.getElementById('cfEmail')?.value   || '').trim();
+  const subject = (document.getElementById('cfSubject')?.value || '').trim();
+  const message = (document.getElementById('cfMessage')?.value || '').trim();
+  const text = encodeURIComponent(
+    `*New Message — Anath Shiksha Foundation Website*\n\n` +
+    `*Name:* ${name || '—'}\n*Phone:* ${phone || '—'}\n*Email:* ${email || '—'}\n` +
+    `*Subject:* ${subject || '—'}\n\n*Message:*\n${message}`
+  );
+  return `https://wa.me/917752923441?text=${text}`;
+}
+
+document.getElementById('cfWhatsappBtn')?.addEventListener('click', () => {
+  const name    = (document.getElementById('cfName')?.value    || '').trim();
+  const message = (document.getElementById('cfMessage')?.value || '').trim();
+  if (!name || !message) { showToast('Please enter your name and message first', 'error'); return; }
+  window.open(getContactWhatsAppUrl(), '_blank');
+});
+
+document.getElementById('contactForm')?.addEventListener('submit', async e => {
   e.preventDefault();
-  showToast('✅ Message sent! We\'ll respond within 24 hours.', 'success');
-  e.target.reset();
+  const name    = (document.getElementById('cfName')?.value    || '').trim();
+  const phone   = (document.getElementById('cfPhone')?.value   || '').trim();
+  const email   = (document.getElementById('cfEmail')?.value   || '').trim();
+  const subject = (document.getElementById('cfSubject')?.value || '').trim();
+  const message = (document.getElementById('cfMessage')?.value || '').trim();
+  if (!name || !message) { showToast('Please fill required fields', 'error'); return; }
+  const btn = document.getElementById('cfSubmitBtn');
+  btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+  try {
+    const res  = await fetch('/api/contact', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, phone, email, subject, message })
+    });
+    const data = await res.json();
+    showToast('✅ Message sent! We will respond within 24 hours.', 'success');
+    document.getElementById('contactForm').reset();
+  } catch(err) {
+    showToast('Error sending message. Try WhatsApp directly.', 'error');
+  } finally {
+    btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+  }
 });
 
 // ── Newsletter form ──────────────────────────────────
@@ -722,6 +821,66 @@ function showToast(msg, type = '') {
   toast.textContent = msg;
   toast.className = 'toast show' + (type ? ' ' + type : '');
   setTimeout(() => toast.className = 'toast', 3500);
+}
+
+// ── Videos ───────────────────────────────────────────
+async function loadVideos() {
+  try {
+    const res    = await fetch('/api/videos');
+    const videos = await res.json();
+    const grid   = document.getElementById('videosGrid');
+    const empty  = document.getElementById('videosEmpty');
+    if (!grid) return;
+    if (!videos.length) { if (empty) empty.style.display = 'block'; return; }
+    grid.innerHTML = videos.map(v => {
+      const isShort = v.type === 'short' || (v.url || '').includes('/shorts/');
+      const thumb   = v.thumb || 'https://img.youtube.com/vi/default/hqdefault.jpg';
+      return `
+      <div class="video-card" data-aos="fade-up">
+        <div class="video-thumb-wrap" onclick="openVideoModal('${escHtmlVal(v.url)}')">
+          <img src="${escHtmlVal(thumb)}" alt="${escHtmlVal(v.title)}" loading="lazy"
+               onerror="this.src='data:image/svg+xml,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'320\\' height=\\'180\\'><rect fill=\\'%23111\\'/><text x=\\'50%\\' y=\\'50%\\' fill=\\'%23555\\' text-anchor=\\'middle\\' dy=\\'.3em\\' font-size=\\'40\\'>▶</text></svg>'"/>
+          ${isShort ? '<span class="video-short-badge">Short</span>' : ''}
+          <div class="video-play-btn"><i class="fab fa-youtube"></i></div>
+        </div>
+        <div class="video-info">
+          <div class="video-title">${escHtmlVal(v.title || 'Watch Video')}</div>
+          <span class="video-type-tag">${isShort ? '📱 YouTube Short' : '🎬 YouTube Video'}</span>
+        </div>
+      </div>`;
+    }).join('');
+    checkAOS();
+  } catch(e) { console.warn('Videos load issue:', e.message); }
+}
+
+function escHtmlVal(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+window.openVideoModal = (url) => {
+  const videoId = url.match(/(?:v=|youtu\.be\/|shorts\/)([A-Za-z0-9_-]{11})/)?.[1];
+  if (!videoId) { window.open(url,'_blank'); return; }
+  const embed = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+  const overlay = document.createElement('div');
+  overlay.className = 'video-modal-overlay';
+  overlay.innerHTML = `
+    <div class="video-modal-inner">
+      <button class="video-modal-close" onclick="this.closest('.video-modal-overlay').remove()">✕</button>
+      <iframe src="${embed}" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+    </div>`;
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+  document.body.appendChild(overlay);
+};
+
+// ── Payment settings loader (UPI ID display) ─────────
+async function loadPaymentSettings() {
+  try {
+    const res  = await fetch('/api/payment/settings');
+    const data = await res.json();
+    const el = document.getElementById('upiIdDisplay');
+    if (el && data.upiId) el.textContent = data.upiId;
+    // WhatsApp direct button number stays hardcoded (from CEO)
+  } catch(e) {}
 }
 
 // ── Join Us Section ──────────────────────────────────
@@ -775,10 +934,170 @@ document.getElementById('joinForm')?.addEventListener('submit', async e => {
   }
 });
 
+// ── Scholarship Section ───────────────────────────────
+async function loadScholarshipInfo() {
+  try {
+    const res  = await fetch('/api/scholarship/info');
+    const s    = await res.json();
+    if (!s || !s.title) return;
+
+    const setT = (id, v) => { const el = document.getElementById(id); if (el && v) el.textContent = v; };
+    setT('scholTitle',   s.title);
+    setT('scholTagline', s.tagline);
+    setT('scholDesc',    s.description);
+
+    // Dates
+    const fmtD = iso => { try { return new Date(iso).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}); } catch{return iso;} };
+    setT('scholLastDate',   fmtD(s.lastDate));
+    setT('scholExamDate',   fmtD(s.examDate));
+    setT('scholResultDate', fmtD(s.resultDate));
+
+    // Eligibility
+    if (s.eligibility && s.eligibility.length) {
+      const el = document.getElementById('scholEligibility');
+      if (el) el.innerHTML = s.eligibility.map(e => `<li><i class="fas fa-check-circle"></i> ${e}</li>`).join('');
+    }
+
+    // Exam cards
+    if (s.exams && s.exams.length) {
+      const grid = document.getElementById('scholExamsGrid');
+      if (grid) grid.innerHTML = s.exams.map(ex => `
+        <div class="schol-exam-card" data-aos="fade-up">
+          <span class="schol-exam-badge">${ex.classes}</span>
+          <div class="schol-exam-name">${ex.name}</div>
+          <div class="schol-exam-classes">${ex.classes}</div>
+          <div class="schol-exam-award">${ex.award}</div>
+          <div class="schol-exam-seats"><i class="fas fa-users"></i> ${ex.seats} scholarships available</div>
+          <div class="schol-exam-subjects"><strong>Subjects:</strong> ${ex.subjects}</div>
+          <div class="schol-exam-desc">${ex.description}</div>
+          <button class="btn schol-apply-exam-btn" onclick="prefillExam('${ex.name}')">
+            <i class="fas fa-pen"></i> Apply for This Exam
+          </button>
+        </div>`).join('');
+    }
+
+    // Process steps
+    if (s.process && s.process.length) {
+      const wrap = document.getElementById('scholProcess');
+      if (wrap) wrap.innerHTML = s.process.map((step, i) => `
+        <div class="schol-step" data-aos="fade-up">
+          <div class="schol-step-num">${i + 1}</div>
+          <div class="schol-step-text">${step}</div>
+        </div>`).join('');
+    }
+
+    checkAOS();
+  } catch(e) { console.warn('Scholarship info load:', e.message); }
+}
+
+function openScholModal() {
+  document.getElementById('scholModal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeScholModal() {
+  document.getElementById('scholModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+// Open modal buttons
+document.getElementById('openScholModal')?.addEventListener('click', e => { e.preventDefault(); openScholModal(); });
+document.getElementById('closeScholModal')?.addEventListener('click', closeScholModal);
+document.getElementById('scholModal')?.addEventListener('click', e => { if (e.target === e.currentTarget) closeScholModal(); });
+
+window.prefillExam = (examName) => {
+  const sel = document.getElementById('sf_examApplying');
+  if (sel) {
+    for (const opt of sel.options) {
+      if (opt.value.toLowerCase().includes(examName.toLowerCase().split(' ')[1])) {
+        sel.value = opt.value; break;
+      }
+    }
+    if (!sel.value && sel.options[1]) sel.value = sel.options[1].value;
+  }
+  openScholModal();
+};
+
+// Photo upload for scholarship form
+document.getElementById('sfPhotoBtn')?.addEventListener('click', () => document.getElementById('sf_photo').click());
+document.getElementById('sf_photo')?.addEventListener('change', e => {
+  const file = e.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    document.getElementById('sfPhotoImg').src = ev.target.result;
+    document.getElementById('sfPhotoPreview').style.display = 'block';
+    document.getElementById('sfPhotoBtn').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+});
+document.getElementById('sfPhotoRemove')?.addEventListener('click', () => {
+  document.getElementById('sf_photo').value = '';
+  document.getElementById('sfPhotoPreview').style.display = 'none';
+  document.getElementById('sfPhotoBtn').style.display = 'flex';
+});
+
+// Scholarship form submit
+document.getElementById('scholForm')?.addEventListener('submit', async e => {
+  e.preventDefault();
+  const why = document.getElementById('sf_whyDeserve')?.value.trim() || '';
+  if (why.split(/\s+/).length < 20) {
+    showToast('Please write at least 50 words in the "Why do you deserve" section', 'error');
+    return;
+  }
+  const btn = document.getElementById('scholSubmitBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+
+  const fd = new FormData();
+  const fields = {
+    fullName: 'sf_fullName', dob: 'sf_dob', gender: 'sf_gender', category: 'sf_category',
+    fatherName: 'sf_fatherName', motherName: 'sf_motherName', phone: 'sf_phone',
+    email: 'sf_email', address: 'sf_address', state: 'sf_state', pincode: 'sf_pincode',
+    currentClass: 'sf_currentClass', schoolName: 'sf_schoolName', boardName: 'sf_boardName',
+    lastYearPercent: 'sf_lastYearPercent', examApplying: 'sf_examApplying',
+    achievements: 'sf_achievements', whyDeserve: 'sf_whyDeserve'
+  };
+  Object.entries(fields).forEach(([k, id]) => {
+    const el = document.getElementById(id);
+    if (el) fd.append(k, el.value);
+  });
+  const photo = document.getElementById('sf_photo')?.files[0];
+  if (photo) fd.append('photo', photo);
+
+  try {
+    const res  = await fetch('/api/scholarship/apply', { method: 'POST', body: fd });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    // Show success modal
+    document.getElementById('scholSuccessMsg').textContent = data.message;
+    document.getElementById('scholAppId').textContent = data.applicationId;
+    closeScholModal();
+    document.getElementById('scholSuccessModal').style.display = 'flex';
+    document.getElementById('scholForm').reset();
+    document.getElementById('sfPhotoPreview').style.display = 'none';
+    document.getElementById('sfPhotoBtn').style.display = 'flex';
+  } catch(err) {
+    showToast('Error: ' + (err.message || 'Please try again'), 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Scholarship Application';
+  }
+});
+
+// ── Media tabs (Gallery & Media section) ─────────────
+document.querySelectorAll('.media-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.media-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.media-panel').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    const panel = document.getElementById('media-' + tab.dataset.panel);
+    if (panel) panel.classList.add('active');
+  });
+});
+
 // ── Init ──────────────────────────────────────────────
 (async function init() {
   await loadContent();
-  await Promise.all([loadEvents(), loadDonors(), loadGallery()]);
+  await Promise.all([loadEvents(), loadDonors(), loadGallery(), loadVideos(), loadPaymentSettings(), loadScholarshipInfo()]);
   updateDonateDisplay();
   checkAOS();
 })();

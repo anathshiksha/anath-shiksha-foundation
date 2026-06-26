@@ -7,6 +7,11 @@
   <meta name="mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <!-- Security meta tags -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff"/>
+  <meta http-equiv="X-Frame-Options" content="DENY"/>
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()"/>
+  <meta name="referrer" content="strict-origin-when-cross-origin"/>
   <title>Anath Shiksha Foundation — Empowering Lives</title>
   <meta name="description" content="Anath Shiksha Foundation — Free education for orphans, meals for the needy, mentorship for village students, and support for poor girls."/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -41,10 +46,11 @@
       <li><a href="#programs" class="nav-link">Programs</a></li>
       <li><a href="#events" class="nav-link">Events</a></li>
       <li><a href="#join" class="nav-link">Join Us</a></li>
-      <li><a href="#gallery" class="nav-link">Gallery</a></li>
+      <li><a href="#scholarship" class="nav-link">Scholarship</a></li>
+      <li><a href="#gallery" class="nav-link">Gallery &amp; Media</a></li>
       <li><a href="#donors" class="nav-link">Donors</a></li>
       <li><a href="#contact" class="nav-link">Contact</a></li>
-      <li><a href="#donate" class="nav-link donate-btn">Donate Now</a></li>
+      <li><button class="nav-link donate-btn" id="navDonateBtn"><i class="fas fa-heart"></i> Donate</button></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="Toggle menu">
       <span></span><span></span><span></span>
@@ -62,12 +68,27 @@
     <p class="hero-subtitle" id="heroSubtitle">Transforming Lives Through Education, Compassion &amp; Hope</p>
     <p class="hero-tagline" id="heroTagline">Every child deserves a bright future — we make it possible.</p>
     <div class="hero-actions">
-      <a href="#donate" class="btn btn-primary btn-lg pulse-btn">
-        <i class="fas fa-heart"></i> Donate Now
-      </a>
       <a href="#programs" class="btn btn-outline btn-lg">
         <i class="fas fa-hands-helping"></i> Our Programs
       </a>
+    </div>
+
+    <!-- Donate widget on hero -->
+    <div class="hero-donate-widget" data-aos="fade-up">
+      <div class="hero-donate-label">Support a child today</div>
+      <div class="hero-amt-row">
+        <button class="hero-amt-btn" data-amount="100">₹100</button>
+        <button class="hero-amt-btn" data-amount="500">₹500</button>
+        <button class="hero-amt-btn active" data-amount="1000">₹1,000</button>
+        <button class="hero-amt-btn" data-amount="5000">₹5,000</button>
+        <input type="number" id="customAmount" class="hero-amt-custom" placeholder="Custom ₹" min="1"/>
+      </div>
+      <button class="btn btn-primary btn-lg pulse-btn hero-donate-btn" id="openDonateModal">
+        <i class="fas fa-heart"></i> Donate <span class="donate-amt-lbl">₹1,000</span> Now
+      </button>
+      <p style="color:rgba(255,255,255,.5);font-size:.72rem;margin-top:.5rem">
+        <i class="fas fa-lock"></i> Secure • 80G Tax Exempt • Receipt on Email
+      </p>
     </div>
     <div class="hero-stats-row" id="heroStats">
       <div class="hero-stat"><span class="hero-stat-num" data-target="2400">0</span><span>+</span><div>Children</div></div>
@@ -183,6 +204,29 @@
         <div class="stat-label">Volunteers</div>
       </div>
     </div>
+
+    <!-- CEO / Founder Card -->
+    <div class="ceo-about-card" data-aos="fade-up">
+      <div class="ceo-about-photo-wrap">
+        <div class="ceo-about-photo" id="ceoAboutPhoto">
+          <span id="ceoAboutInitial">A</span>
+        </div>
+        <div class="ceo-about-badge">CEO &amp; Founder</div>
+      </div>
+      <div class="ceo-about-info">
+        <h3 id="ceoAboutName">Abhinav Singh</h3>
+        <div class="ceo-about-role" id="ceoAboutRole">CEO &amp; Founder, Anath Shiksha Foundation</div>
+        <p id="ceoAboutBio">Abhinav Singh founded Anath Shiksha Foundation with a simple belief: no child should be denied education because of circumstances beyond their control. Under his leadership, the foundation has grown from a small local initiative to a pan-India movement impacting thousands of lives.</p>
+        <div class="ceo-about-actions">
+          <a id="ceoAboutPhone" href="tel:+917752923441" class="btn btn-primary">
+            <i class="fas fa-phone-alt"></i> +91 7752923441
+          </a>
+          <a href="https://wa.me/917752923441" target="_blank" class="btn btn-whatsapp">
+            <i class="fab fa-whatsapp"></i> WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -206,7 +250,7 @@
     <div class="impact-strip-text">
       <h2>Your ₹100 Can Change a Child's Life</h2>
       <p>Every rupee you donate goes directly towards a child's education, a family's meal, or a girl's future. 92% of all donations reach beneficiaries directly.</p>
-      <a href="#donate" class="btn btn-white btn-lg">
+      <a href="#" class="btn btn-white btn-lg" id="impactDonateBtn">
         <i class="fas fa-heart"></i> Donate Today
       </a>
     </div>
@@ -361,19 +405,6 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════ GALLERY ═══════════════════════════ -->
-<section id="gallery" class="section gallery-section">
-  <div class="container">
-    <div class="section-header" data-aos="fade-up">
-      <span class="section-badge">In Action</span>
-      <h2 class="section-title">Gallery</h2>
-    </div>
-    <div class="gallery-grid" id="galleryGrid">
-      <!-- Populated by JS -->
-    </div>
-  </div>
-</section>
-
 <!-- ═══════════════════════════ TOP DONORS ═══════════════════════════ -->
 <section id="donors" class="section donors-section">
   <div class="container">
@@ -391,159 +422,109 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════ DONATE ═══════════════════════════ -->
-<section id="donate" class="section donate-section">
-  <div class="donate-bg-overlay"></div>
+<!-- ═══════════════════════════ SCHOLARSHIP ═══════════════════════════ -->
+<section id="scholarship" class="section scholarship-section">
   <div class="container">
+
+    <!-- Section header -->
     <div class="section-header" data-aos="fade-up">
-      <span class="section-badge">Make a Difference</span>
-      <h2 class="section-title" style="color:#fff">Donate &amp; Change a Life</h2>
-      <p class="section-subtitle" style="color:rgba(255,255,255,.8)">100% secure • Tax exemption under 80G • Receipt sent to your email</p>
+      <span class="section-badge">🏅 Scholarship Program</span>
+      <h2 class="section-title" id="scholTitle">Anath Shiksha Scholarship Program</h2>
+      <p class="section-subtitle" id="scholTagline">Rewarding Merit. Empowering Futures.</p>
     </div>
-    <div class="donate-wrapper" data-aos="fade-up">
 
-      <!-- Left info panel -->
-      <div class="donate-info">
-        <h3>Why Donate?</h3>
-        <ul class="donate-benefits">
-          <li><i class="fas fa-check-circle"></i> Tax exemption under Section 80G</li>
-          <li><i class="fas fa-check-circle"></i> 92% funds reach beneficiaries</li>
-          <li><i class="fas fa-check-circle"></i> Receipt emailed instantly</li>
-          <li><i class="fas fa-check-circle"></i> Debit card, Credit card, UPI &amp; QR</li>
-          <li><i class="fas fa-check-circle"></i> Admin-verified Donor Hall of Fame</li>
+    <!-- Intro + key dates -->
+    <div class="schol-hero-row" data-aos="fade-up">
+      <div class="schol-intro">
+        <p id="scholDesc">We believe every brilliant child deserves a chance — regardless of financial background. Our annual scholarship exam identifies the brightest students from underprivileged families and awards them full scholarships to pursue their dreams.</p>
+        <div class="schol-dates" id="scholDates">
+          <div class="schol-date-card">
+            <i class="fas fa-calendar-alt"></i>
+            <div><span class="schol-date-label">Last Date to Apply</span><strong id="scholLastDate">30 Sep 2025</strong></div>
+          </div>
+          <div class="schol-date-card">
+            <i class="fas fa-pen-nib"></i>
+            <div><span class="schol-date-label">Exam Date</span><strong id="scholExamDate">15 Oct 2025</strong></div>
+          </div>
+          <div class="schol-date-card">
+            <i class="fas fa-trophy"></i>
+            <div><span class="schol-date-label">Result Date</span><strong id="scholResultDate">1 Nov 2025</strong></div>
+          </div>
+        </div>
+        <a href="#" class="btn btn-primary btn-lg schol-apply-top-btn" id="openScholModal">
+          <i class="fas fa-graduation-cap"></i> Apply for Scholarship
+        </a>
+      </div>
+      <div class="schol-quick-facts">
+        <h3>Quick Facts</h3>
+        <ul class="schol-facts-list" id="scholEligibility">
+          <li><i class="fas fa-check-circle"></i> Family income below ₹2,50,000/year</li>
+          <li><i class="fas fa-check-circle"></i> Government or low-fee private school</li>
+          <li><i class="fas fa-check-circle"></i> Orphaned children get 10 bonus marks</li>
+          <li><i class="fas fa-check-circle"></i> 80% attendance in last year</li>
+          <li><i class="fas fa-check-circle"></i> One application per student per year</li>
         </ul>
-        <div class="donate-trust-badges">
-          <div class="trust-badge"><i class="fas fa-shield-alt"></i><span>Secure</span></div>
-          <div class="trust-badge"><i class="fas fa-lock"></i><span>SSL</span></div>
-          <div class="trust-badge"><i class="fas fa-certificate"></i><span>80G</span></div>
-          <div class="trust-badge"><i class="fas fa-envelope"></i><span>Receipt</span></div>
-        </div>
-        <!-- CEO Card -->
-        <div class="ceo-card" id="ceoCard">
-          <div class="ceo-avatar-wrap">
-            <div class="ceo-avatar">A</div>
-            <div class="ceo-online-dot"></div>
-          </div>
-          <div class="ceo-info">
-            <div class="ceo-name" id="ceoName">Abhinav Singh</div>
-            <div class="ceo-role" id="ceoRole">CEO &amp; Founder</div>
-            <a class="ceo-phone" id="ceoPhone" href="tel:+917752923441">
-              <i class="fas fa-phone-alt"></i> +91 7752923441
-            </a>
-          </div>
-        </div>
-        <p class="ceo-bio" id="ceoBio">Abhinav Singh founded Anath Shiksha Foundation with a vision that no child should be denied education.</p>
-      </div>
-
-      <!-- Right form card -->
-      <div class="donate-form-card">
-        <h3>Make a Donation</h3>
-
-        <!-- Amount selector -->
-        <div class="amount-selector">
-          <button class="amt-btn" data-amount="100">₹100</button>
-          <button class="amt-btn" data-amount="500">₹500</button>
-          <button class="amt-btn active" data-amount="1000">₹1,000</button>
-          <button class="amt-btn" data-amount="5000">₹5,000</button>
-          <button class="amt-btn" data-amount="10000">₹10,000</button>
-          <button class="amt-btn" data-amount="51000">₹51,000</button>
-        </div>
-        <div class="form-group">
-          <label>Custom Amount (₹)</label>
-          <input type="number" id="customAmount" placeholder="Enter your amount" min="1"/>
-        </div>
-
-        <!-- Donor details (shared across all payment methods) -->
-        <div class="form-row">
-          <div class="form-group">
-            <label>Full Name *</label>
-            <input type="text" id="donorName" placeholder="Your name" required/>
-          </div>
-          <div class="form-group">
-            <label>Email * <small>(receipt sent here)</small></label>
-            <input type="email" id="donorEmail" placeholder="your@email.com" required/>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Phone</label>
-            <input type="tel" id="donorPhone" placeholder="+91 98765 43210"/>
-          </div>
-          <div class="form-group">
-            <label>Your Photo <small>(optional)</small></label>
-            <div class="photo-upload-wrap">
-              <input type="file" id="donorPhoto" accept="image/*" style="display:none"/>
-              <button type="button" class="photo-upload-btn" id="photoUploadBtn">
-                <i class="fas fa-camera"></i> Upload Photo
-              </button>
-              <div class="photo-preview-wrap" id="photoPreviewWrap" style="display:none">
-                <img id="photoPreview" src="" alt="Preview"/>
-                <button type="button" class="photo-remove-btn" id="photoRemoveBtn"><i class="fas fa-times"></i></button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Message (optional)</label>
-          <textarea id="donorMessage" placeholder="Leave a message of hope..." rows="2"></textarea>
-        </div>
-        <div class="form-check">
-          <input type="checkbox" id="publicDonor" checked/>
-          <label for="publicDonor">Show my name in the Donors Hall of Fame (after admin verification)</label>
-        </div>
-
-        <!-- Payment method tabs -->
-        <div class="pay-tabs">
-          <button class="pay-tab active" data-method="card"><i class="fas fa-credit-card"></i> Card</button>
-          <button class="pay-tab" data-method="upi"><i class="fas fa-mobile-alt"></i> UPI</button>
-          <button class="pay-tab" data-method="qr"><i class="fas fa-qrcode"></i> QR Code</button>
-        </div>
-
-        <!-- Card payment panel -->
-        <div class="pay-panel active" id="panel-card">
-          <p class="pay-panel-note"><i class="fas fa-info-circle"></i> Pay securely with Debit Card, Credit Card, or Net Banking via Razorpay.</p>
-          <button type="button" class="btn btn-primary btn-block btn-donate-submit" id="donateSubmitCard">
-            <i class="fas fa-heart"></i> Donate <span class="donate-amt-lbl">₹1,000</span> via Card
-          </button>
-        </div>
-
-        <!-- UPI panel -->
-        <div class="pay-panel" id="panel-upi">
-          <p class="pay-panel-note"><i class="fas fa-info-circle"></i> Pay via UPI app, then enter your UTR number below for confirmation.</p>
-          <div class="upi-id-display">
-            <span class="upi-label">UPI ID:</span>
-            <span class="upi-value" id="upiIdDisplay">anathshiksha@upi</span>
-            <button type="button" class="copy-btn" id="copyUpiBtn"><i class="fas fa-copy"></i></button>
-          </div>
-          <div class="form-group" style="margin-top:.8rem">
-            <label>UTR / Transaction Number *</label>
-            <input type="text" id="utrNumber" placeholder="Enter UTR/transaction reference"/>
-          </div>
-          <button type="button" class="btn btn-primary btn-block btn-donate-submit" id="donateSubmitUpi">
-            <i class="fas fa-paper-plane"></i> Submit UPI Payment of <span class="donate-amt-lbl">₹1,000</span>
-          </button>
-        </div>
-
-        <!-- QR panel -->
-        <div class="pay-panel" id="panel-qr">
-          <p class="pay-panel-note"><i class="fas fa-info-circle"></i> Scan the QR code with any UPI app (GPay, PhonePe, Paytm, etc.), then submit your UTR.</p>
-          <div class="qr-container">
-            <div class="qr-loading" id="qrLoading"><i class="fas fa-spinner fa-spin"></i> Generating QR...</div>
-            <img id="qrImage" src="" alt="UPI QR Code" style="display:none"/>
-            <div class="qr-amount-label" id="qrAmountLabel">Scan to pay ₹1,000</div>
-          </div>
-          <div class="form-group" style="margin-top:.8rem">
-            <label>UTR / Transaction Number *</label>
-            <input type="text" id="utrNumberQr" placeholder="Enter UTR after payment"/>
-          </div>
-          <button type="button" class="btn btn-primary btn-block btn-donate-submit" id="donateSubmitQr">
-            <i class="fas fa-check-circle"></i> Confirm QR Payment of <span class="donate-amt-lbl">₹1,000</span>
-          </button>
-        </div>
-
-        <p class="donate-note"><i class="fas fa-lock"></i> 256-bit SSL • Razorpay secured • Receipt emailed instantly</p>
       </div>
     </div>
+
+    <!-- Exam tiers -->
+    <div class="schol-exams-header" data-aos="fade-up">
+      <h3>Scholarship Exams — Choose Your Category</h3>
+    </div>
+    <div class="schol-exams-grid" id="scholExamsGrid" data-aos="fade-up">
+      <!-- Populated by JS -->
+    </div>
+
+    <!-- How it works -->
+    <div class="schol-process-wrap" data-aos="fade-up">
+      <h3>How It Works</h3>
+      <div class="schol-process-steps" id="scholProcess">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- Application form — opens as popup modal (see #scholModal below) -->
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════ GALLERY & MEDIA ═══════════════════════════ -->
+<section id="gallery" class="section gallery-media-section">
+  <div class="container">
+
+    <div class="section-header" data-aos="fade-up">
+      <span class="section-badge">📸 Gallery &amp; Media</span>
+      <h2 class="section-title">Photos &amp; Videos</h2>
+      <p class="section-subtitle">See our work in action — stories of hope, events, and impact from the ground</p>
+    </div>
+
+    <!-- Tab switcher -->
+    <div class="media-tabs" data-aos="fade-up">
+      <button class="media-tab active" data-panel="photos">
+        <i class="fas fa-images"></i> Photo Gallery
+      </button>
+      <button class="media-tab" data-panel="videos">
+        <i class="fab fa-youtube"></i> Videos &amp; Shorts
+      </button>
+    </div>
+
+    <!-- Photos panel -->
+    <div class="media-panel active" id="media-photos">
+      <div class="gallery-grid" id="galleryGrid">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- Videos panel -->
+    <div class="media-panel" id="media-videos">
+      <div class="videos-grid" id="videosGrid">
+        <div class="videos-empty" id="videosEmpty" style="display:none">
+          <i class="fab fa-youtube"></i>
+          <p>Videos coming soon. Stay tuned!</p>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -560,24 +541,28 @@
           <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
           <div>
             <h4>Our Address</h4>
-            <p id="contactAddress">42, Gandhi Nagar, Sector 5, New Delhi – 110001</p>
+            <p id="contactAddress">63, Salpur Dhautal Dist-Gonda Uttar Pradesh 271125</p>
           </div>
         </div>
         <div class="contact-card">
           <div class="contact-icon"><i class="fas fa-phone"></i></div>
           <div>
             <h4>Phone</h4>
-            <p><a href="tel:+919876543210" id="contactPhone">+91-9876543210</a></p>
+            <p><a href="tel:+917752923441" id="contactPhone">+91-7752923441</a></p>
           </div>
         </div>
         <div class="contact-card">
           <div class="contact-icon"><i class="fas fa-envelope"></i></div>
           <div>
             <h4>Email</h4>
-            <p><a href="mailto:info@anathshiksha.org" id="contactEmail">info@anathshiksha.org</a></p>
+            <p><a href="mailto:anathshiksha@gmail.com" id="contactEmail">anathshiksha@gmail.com</a></p>
           </div>
         </div>
-        <div class="social-links">
+        <!-- WhatsApp direct button -->
+        <a id="whatsappDirectBtn" href="https://wa.me/917752923441" target="_blank" class="btn btn-whatsapp">
+          <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+        </a>
+        <div class="social-links" style="margin-top:.5rem">
           <a href="#" id="fbLink" class="social-link"><i class="fab fa-facebook-f"></i></a>
           <a href="#" id="twLink" class="social-link"><i class="fab fa-twitter"></i></a>
           <a href="#" id="igLink" class="social-link"><i class="fab fa-instagram"></i></a>
@@ -588,25 +573,36 @@
         <form class="contact-form" id="contactForm">
           <div class="form-row">
             <div class="form-group">
-              <label>Name</label>
-              <input type="text" placeholder="Your name" required/>
+              <label>Name *</label>
+              <input type="text" id="cfName" placeholder="Your name" required/>
             </div>
             <div class="form-group">
+              <label>Phone</label>
+              <input type="tel" id="cfPhone" placeholder="+91 98765 43210"/>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
               <label>Email</label>
-              <input type="email" placeholder="your@email.com" required/>
+              <input type="email" id="cfEmail" placeholder="your@email.com"/>
+            </div>
+            <div class="form-group">
+              <label>Subject</label>
+              <input type="text" id="cfSubject" placeholder="How can we help?"/>
             </div>
           </div>
           <div class="form-group">
-            <label>Subject</label>
-            <input type="text" placeholder="How can we help?" required/>
+            <label>Message *</label>
+            <textarea rows="5" id="cfMessage" placeholder="Your message..." required></textarea>
           </div>
-          <div class="form-group">
-            <label>Message</label>
-            <textarea rows="5" placeholder="Your message..." required></textarea>
+          <div class="contact-form-actions">
+            <button type="submit" class="btn btn-primary btn-block" id="cfSubmitBtn">
+              <i class="fas fa-paper-plane"></i> Send Message
+            </button>
+            <button type="button" class="btn btn-whatsapp btn-block" id="cfWhatsappBtn">
+              <i class="fab fa-whatsapp"></i> Send via WhatsApp
+            </button>
           </div>
-          <button type="submit" class="btn btn-primary btn-block">
-            <i class="fas fa-paper-plane"></i> Send Message
-          </button>
         </form>
       </div>
     </div>
@@ -627,7 +623,7 @@
             </div>
           </div>
           <p>Every donation, every volunteer hour, every kind word — it all adds up to transform a child's destiny.</p>
-          <a href="#donate" class="btn btn-primary" style="margin-top:1rem">Donate Now</a>
+          <button class="btn btn-primary footer-donate-btn" style="margin-top:1rem">Donate Now</button>
         </div>
         <div class="footer-links-col">
           <h4>Quick Links</h4>
@@ -636,7 +632,8 @@
             <li><a href="#programs">Programs</a></li>
             <li><a href="#events">Events</a></li>
             <li><a href="#join">Join Us</a></li>
-            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#scholarship">Scholarship</a></li>
+            <li><a href="#gallery">Gallery &amp; Media</a></li>
             <li><a href="#donors">Top Donors</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
@@ -682,6 +679,107 @@
 <!-- ═══════════════════════════ TOAST ═══════════════════════════ -->
 <div id="toast" class="toast"></div>
 
+<!-- ═══════════════════════════ DONATE MODAL ═══════════════════════════ -->
+<div id="donateModal" class="modal-overlay donate-modal-overlay" style="display:none">
+  <div class="donate-modal-box">
+    <div class="donate-modal-header">
+      <div>
+        <h3><i class="fas fa-heart" style="color:#FF6B35"></i> Complete Your Donation</h3>
+        <p>Donating <strong class="donate-amt-lbl donate-modal-amt" style="color:#FF6B35">₹1,000</strong> — secure &amp; tax-exempt</p>
+      </div>
+      <button class="donate-modal-close" id="closeDonateModal"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="donate-modal-body">
+      <!-- Donor details -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input type="text" id="donorName" placeholder="Your name" required/>
+        </div>
+        <div class="form-group">
+          <label>Email * <small>(receipt here)</small></label>
+          <input type="email" id="donorEmail" placeholder="your@email.com" required/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" id="donorPhone" placeholder="+91 98765 43210"/>
+        </div>
+        <div class="form-group">
+          <label>Your Photo <small>(optional)</small></label>
+          <div class="photo-upload-wrap">
+            <input type="file" id="donorPhoto" accept="image/*" style="display:none"/>
+            <button type="button" class="photo-upload-btn" id="photoUploadBtn"><i class="fas fa-camera"></i> Upload</button>
+            <div class="photo-preview-wrap" id="photoPreviewWrap" style="display:none">
+              <img id="photoPreview" src="" alt="Preview"/>
+              <button type="button" class="photo-remove-btn" id="photoRemoveBtn"><i class="fas fa-times"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Message (optional)</label>
+          <textarea id="donorMessage" placeholder="Leave a message of hope..." rows="2"></textarea>
+        </div>
+      </div>
+      <div class="form-check" style="margin-bottom:1rem">
+        <input type="checkbox" id="publicDonor" checked/>
+        <label for="publicDonor">Show my name in the Donors Hall of Fame (after admin verification)</label>
+      </div>
+
+      <!-- Payment tabs -->
+      <div class="pay-tabs">
+        <button class="pay-tab active" data-method="card"><i class="fas fa-credit-card"></i> Card</button>
+        <button class="pay-tab" data-method="upi"><i class="fas fa-mobile-alt"></i> UPI</button>
+        <button class="pay-tab" data-method="qr"><i class="fas fa-qrcode"></i> QR Code</button>
+      </div>
+
+      <div class="pay-panel active" id="panel-card">
+        <p class="pay-panel-note"><i class="fas fa-info-circle"></i> Pay securely via Debit Card, Credit Card, or Net Banking through Razorpay.</p>
+        <button type="button" class="btn btn-primary btn-block btn-donate-submit" id="donateSubmitCard">
+          <i class="fas fa-heart"></i> Donate <span class="donate-amt-lbl">₹1,000</span> via Card
+        </button>
+      </div>
+
+      <div class="pay-panel" id="panel-upi">
+        <p class="pay-panel-note"><i class="fas fa-info-circle"></i> Pay via any UPI app, then enter the UTR number to confirm.</p>
+        <div class="upi-id-display">
+          <span class="upi-label">UPI ID:</span>
+          <span class="upi-value" id="upiIdDisplay">anathshikshafoundation@ybl</span>
+          <button type="button" class="copy-btn" id="copyUpiBtn"><i class="fas fa-copy"></i></button>
+        </div>
+        <div class="form-group" style="margin-top:.8rem">
+          <label>UTR / Transaction Number *</label>
+          <input type="text" id="utrNumber" placeholder="Enter UTR reference number"/>
+        </div>
+        <button type="button" class="btn btn-primary btn-block btn-donate-submit" id="donateSubmitUpi">
+          <i class="fas fa-paper-plane"></i> Submit UPI Payment of <span class="donate-amt-lbl">₹1,000</span>
+        </button>
+      </div>
+
+      <div class="pay-panel" id="panel-qr">
+        <p class="pay-panel-note"><i class="fas fa-info-circle"></i> Scan with GPay, PhonePe, Paytm — then enter UTR number.</p>
+        <div class="qr-container">
+          <div class="qr-loading" id="qrLoading"><i class="fas fa-spinner fa-spin"></i> Generating QR...</div>
+          <img id="qrImage" src="" alt="UPI QR Code" style="display:none"/>
+          <div class="qr-amount-label" id="qrAmountLabel">Scan to pay ₹1,000</div>
+        </div>
+        <div class="form-group" style="margin-top:.8rem">
+          <label>UTR / Transaction Number *</label>
+          <input type="text" id="utrNumberQr" placeholder="Enter UTR after payment"/>
+        </div>
+        <button type="button" class="btn btn-primary btn-block btn-donate-submit" id="donateSubmitQr">
+          <i class="fas fa-check-circle"></i> Confirm QR Payment of <span class="donate-amt-lbl">₹1,000</span>
+        </button>
+      </div>
+
+      <p class="donate-note"><i class="fas fa-lock"></i> 256-bit SSL • Razorpay secured • Receipt emailed instantly</p>
+    </div>
+  </div>
+</div>
+
 <!-- ═══════════════════════════ PAYMENT SUCCESS MODAL ═══════════════════════════ -->
 <div id="successModal" class="modal-overlay" style="display:none">
   <div class="modal-box success-modal">
@@ -690,6 +788,124 @@
     <p id="successMsg">Your donation has been received. You are changing lives!</p>
     <p class="success-sub">A receipt will be sent to your email.</p>
     <button class="btn btn-primary" onclick="document.getElementById('successModal').style.display='none'">Close</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ SCHOLARSHIP APPLICATION MODAL ═══════════════════════════ -->
+<div id="scholModal" class="modal-overlay schol-modal-overlay" style="display:none">
+  <div class="schol-modal-box">
+    <!-- Header -->
+    <div class="schol-modal-header">
+      <div style="display:flex;align-items:center;gap:1rem">
+        <span style="font-size:2rem">🎓</span>
+        <div>
+          <h3>Scholarship Application Form</h3>
+          <p>Fill details carefully — exam hall ticket sent to your phone/email</p>
+        </div>
+      </div>
+      <button class="schol-modal-close" id="closeScholModal"><i class="fas fa-times"></i></button>
+    </div>
+    <!-- Body -->
+    <div class="schol-modal-body">
+      <form id="scholForm">
+        <div class="schol-section-label"><i class="fas fa-user"></i> Personal Details</div>
+        <div class="form-row">
+          <div class="form-group"><label>Full Name *</label><input type="text" id="sf_fullName" placeholder="Student's full name" required/></div>
+          <div class="form-group"><label>Date of Birth *</label><input type="date" id="sf_dob" required/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Gender *</label>
+            <select id="sf_gender" required><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select></div>
+          <div class="form-group"><label>Category *</label>
+            <select id="sf_category" required><option value="">Select</option><option>General</option><option>OBC</option><option>SC</option><option>ST</option><option>Orphan</option><option>Differently Abled</option></select></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Father's Name</label><input type="text" id="sf_fatherName" placeholder="Father's full name"/></div>
+          <div class="form-group"><label>Mother's Name</label><input type="text" id="sf_motherName" placeholder="Mother's full name"/></div>
+        </div>
+
+        <div class="schol-section-label"><i class="fas fa-phone"></i> Contact Details</div>
+        <div class="form-row">
+          <div class="form-group"><label>Mobile Number *</label><input type="tel" id="sf_phone" placeholder="+91 98765 43210" required/></div>
+          <div class="form-group"><label>Email</label><input type="email" id="sf_email" placeholder="student@email.com"/></div>
+        </div>
+        <div class="form-group"><label>Address *</label><input type="text" id="sf_address" placeholder="Village / Town / City, District" required/></div>
+        <div class="form-row">
+          <div class="form-group"><label>State *</label>
+            <select id="sf_state" required>
+              <option value="">Select State</option>
+              <option>Uttar Pradesh</option><option>Bihar</option><option>Madhya Pradesh</option><option>Rajasthan</option>
+              <option>Maharashtra</option><option>West Bengal</option><option>Odisha</option><option>Jharkhand</option>
+              <option>Chhattisgarh</option><option>Delhi</option><option>Gujarat</option><option>Karnataka</option>
+              <option>Tamil Nadu</option><option>Kerala</option><option>Andhra Pradesh</option><option>Telangana</option>
+              <option>Assam</option><option>Haryana</option><option>Punjab</option><option>Uttarakhand</option><option>Other</option>
+            </select></div>
+          <div class="form-group"><label>Pincode</label><input type="text" id="sf_pincode" placeholder="271125" maxlength="6"/></div>
+        </div>
+
+        <div class="schol-section-label"><i class="fas fa-book"></i> Academic Details</div>
+        <div class="form-row">
+          <div class="form-group"><label>Current Class *</label>
+            <select id="sf_currentClass" required>
+              <option value="">Select Class</option>
+              <option>Class 6</option><option>Class 7</option><option>Class 8</option><option>Class 9</option><option>Class 10</option>
+              <option>Class 11 (Science)</option><option>Class 11 (Commerce)</option><option>Class 12 (Science)</option><option>Class 12 (Commerce)</option>
+            </select></div>
+          <div class="form-group"><label>School Name *</label><input type="text" id="sf_schoolName" placeholder="Name of your current school" required/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Board</label>
+            <select id="sf_boardName"><option value="">Select Board</option><option>CBSE</option><option>ICSE</option><option>State Board (UP)</option><option>State Board (Other)</option><option>NIOS</option></select></div>
+          <div class="form-group"><label>Last Year Marks / Percentage</label><input type="text" id="sf_lastYearPercent" placeholder="e.g. 87% or 540/600"/></div>
+        </div>
+
+        <div class="schol-section-label"><i class="fas fa-pen"></i> Scholarship Exam</div>
+        <div class="form-group"><label>Applying for *</label>
+          <select id="sf_examApplying" required>
+            <option value="">Select Exam</option>
+            <option>ASF Junior Scholar (Class 6–8)</option>
+            <option>ASF Senior Scholar (Class 9–10)</option>
+            <option>ASF Merit Excellence (Class 11–12)</option>
+          </select></div>
+        <div class="form-group"><label>Academic Achievements / Awards (optional)</label>
+          <textarea id="sf_achievements" rows="2" placeholder="Any prizes, ranks, competitions won..."></textarea></div>
+        <div class="form-group"><label>Why do you deserve this scholarship? * <small>(min 50 words)</small></label>
+          <textarea id="sf_whyDeserve" rows="4" placeholder="Tell us about your dreams, your challenges, and why you need this scholarship..." required></textarea></div>
+
+        <div class="form-group"><label>Student Passport Photo (optional)</label>
+          <div class="photo-upload-wrap">
+            <input type="file" id="sf_photo" accept="image/*" style="display:none"/>
+            <button type="button" class="photo-upload-btn" id="sfPhotoBtn"><i class="fas fa-camera"></i> Upload Photo</button>
+            <div class="photo-preview-wrap" id="sfPhotoPreview" style="display:none">
+              <img id="sfPhotoImg" src="" alt="Preview"/>
+              <button type="button" class="photo-remove-btn" id="sfPhotoRemove"><i class="fas fa-times"></i></button>
+            </div>
+          </div></div>
+
+        <div class="schol-declaration">
+          <input type="checkbox" id="sf_declare" required/>
+          <label for="sf_declare">I hereby declare that all information provided is true and correct. False information leads to disqualification.</label>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="scholSubmitBtn" style="padding:1rem;font-size:1.05rem">
+          <i class="fas fa-paper-plane"></i> Submit Scholarship Application
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════ SCHOLARSHIP SUCCESS MODAL ═══════════════════════════ -->
+<div id="scholSuccessModal" class="modal-overlay" style="display:none">
+  <div class="modal-box success-modal">
+    <div class="success-icon">🏅</div>
+    <h2>Application Submitted!</h2>
+    <p id="scholSuccessMsg">Your scholarship application has been received successfully.</p>
+    <p class="success-sub">Keep checking your phone/email for exam hall ticket and updates. Best of luck! 🌟</p>
+    <div style="background:#f9f9f9;border-radius:8px;padding:1rem;margin:1rem 0;font-size:.88rem;color:#555">
+      <strong>Your Application ID:</strong><br/>
+      <span id="scholAppId" style="font-family:monospace;font-size:1rem;color:#FF6B35;font-weight:700"></span>
+    </div>
+    <button class="btn btn-primary" onclick="document.getElementById('scholSuccessModal').style.display='none'">Close</button>
   </div>
 </div>
 

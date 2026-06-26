@@ -44,10 +44,27 @@ input, textarea, select, button { font-family: var(--font); }
 .input-icon-wrap input:focus { outline: none; border-color: var(--primary); }
 .toggle-pass { position: absolute; right: .8rem; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-light); }
 .login-error { background: #fff5f5; color: var(--red); border: 1px solid #fed7d7; border-radius: var(--radius-sm); padding: .7rem 1rem; font-size: .88rem; margin-bottom: 1rem; }
-.btn-login { width: 100%; padding: .9rem; background: var(--primary); color: var(--white); border: none; border-radius: var(--radius-sm); font-size: 1rem; font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: .5rem; }
+.btn-login { width: 100%; padding: .9rem; background: var(--primary); color: var(--white); border: none; border-radius: var(--radius-sm); font-size: 1rem; font-weight: 600; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: .5rem; margin-bottom: .5rem; }
 .btn-login:hover { background: var(--primary-dark); transform: translateY(-2px); }
 .back-link { display: inline-flex; align-items: center; gap: .4rem; color: var(--text-light); font-size: .85rem; margin-top: 1.5rem; transition: var(--transition); }
 .back-link:hover { color: var(--primary); }
+
+/* ── OTP Login styles ────────────────── */
+.login-org { color: var(--text-light); font-size: .88rem; margin-bottom: 1.5rem; }
+.login-step-badge { display: inline-flex; align-items: center; gap: .5rem; background: rgba(255,107,53,.1); color: var(--primary); border: 1px solid rgba(255,107,53,.25); border-radius: 50px; padding: .35rem 1rem; font-size: .78rem; font-weight: 700; margin-bottom: .8rem; text-transform: uppercase; letter-spacing: .5px; }
+.login-step-badge.otp-step { background: rgba(33,150,243,.1); color: #1565c0; border-color: rgba(33,150,243,.3); }
+.login-step-badge.pass-step { background: rgba(76,175,80,.1); color: #2e7d32; border-color: rgba(76,175,80,.3); }
+.login-step-info { font-size: .85rem; color: var(--text-light); margin-bottom: 1.2rem; line-height: 1.5; }
+.otp-input-row { display: flex; gap: .5rem; justify-content: center; margin-bottom: 1rem; }
+.otp-digit { width: 46px; height: 52px; border: 2px solid var(--border); border-radius: var(--radius-sm); text-align: center; font-size: 1.4rem; font-weight: 700; color: var(--dark); transition: var(--transition); }
+.otp-digit:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255,107,53,.15); }
+.otp-digit.filled { border-color: var(--primary); background: rgba(255,107,53,.05); }
+.otp-timer { text-align: center; font-size: .8rem; color: var(--text-light); margin-bottom: .8rem; }
+#otpCountdown { font-weight: 700; color: var(--primary); }
+.btn-resend { width: 100%; padding: .65rem; background: var(--light-bg); color: var(--text-light); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: .88rem; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: .5rem; margin-top: .3rem; }
+.btn-resend:hover { border-color: var(--primary); color: var(--primary); }
+.btn-whatsapp-login { display: inline-flex; align-items: center; gap: .5rem; background: #25D366; color: #fff; padding: .6rem 1.2rem; border-radius: 50px; font-size: .85rem; font-weight: 600; transition: var(--transition); }
+.btn-whatsapp-login:hover { background: #128C7E; transform: translateY(-2px); }
 
 /* ── Admin Layout ────────────────────── */
 .admin-layout { display: flex; min-height: 100vh; }
@@ -247,3 +264,41 @@ input, textarea, select, button { font-family: var(--font); }
 .gal-lightbox img { max-width: 90vw; max-height: 88vh; border-radius: 8px; box-shadow: 0 20px 60px rgba(0,0,0,.5); }
 .gal-lightbox-close { position: absolute; top: 1rem; right: 1.2rem; background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer; line-height: 1; }
 .gal-lightbox-caption { position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,.8); font-size: .95rem; background: rgba(0,0,0,.5); padding: .4rem 1.2rem; border-radius: 50px; white-space: nowrap; max-width: 80vw; overflow: hidden; text-overflow: ellipsis; }
+
+/* ── Message badge ───────────────────────── */
+.msg-badge { background: #e53e3e; color: #fff; border-radius: 50px; font-size: .65rem; font-weight: 700; padding: .1rem .45rem; margin-left: .4rem; vertical-align: middle; }
+
+/* ── Message detail modal ────────────────── */
+.msg-detail-body { background: var(--light-bg); border-radius: var(--radius-sm); padding: 1rem 1.2rem; font-size: .9rem; line-height: 1.8; white-space: pre-wrap; margin-bottom: 1rem; }
+.msg-meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin-bottom: 1rem; }
+.msg-meta-item label { display: block; font-size: .72rem; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: .5px; margin-bottom: .15rem; }
+.msg-meta-item p { font-size: .88rem; color: var(--text); }
+.badge-unread { background: #fff8e1; color: #e65100; padding: .2rem .6rem; border-radius: 50px; font-size: .72rem; font-weight: 700; }
+.badge-read   { background: #e8f5e9; color: #2e7d32; padding: .2rem .6rem; border-radius: 50px; font-size: .72rem; font-weight: 700; }
+.btn-whatsapp-admin { background: #25D366; color: #fff; border: none; border-radius: var(--radius-sm); padding: .6rem 1.2rem; font-size: .88rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: .5rem; transition: var(--transition); }
+.btn-whatsapp-admin:hover { background: #128C7E; }
+
+/* ── Video table thumbnail ───────────────── */
+.vid-thumb { width: 80px; height: 45px; object-fit: cover; border-radius: 4px; background: #111; }
+.vid-url-cell { max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .78rem; color: #888; }
+
+/* ── Toggle switch ───────────────────────── */
+.toggle-row { display: flex; align-items: center; gap: 1rem; background: var(--light-bg); border-radius: var(--radius-sm); padding: .9rem 1.2rem; border: 1px solid var(--border); }
+.toggle-switch { position: relative; display: inline-block; width: 52px; height: 28px; flex-shrink: 0; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-slider { position: absolute; cursor: pointer; inset: 0; background: #ccc; border-radius: 28px; transition: .3s; }
+.toggle-slider::before { content: ''; position: absolute; width: 20px; height: 20px; left: 4px; bottom: 4px; background: #fff; border-radius: 50%; transition: .3s; box-shadow: 0 1px 4px rgba(0,0,0,.2); }
+input:checked + .toggle-slider { background: #4CAF50; }
+input:checked + .toggle-slider::before { transform: translateX(24px); }
+
+/* ── Exam tier editor ────────────────────── */
+.exam-tier-card { background: var(--light-bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem 1.2rem; margin-bottom: .8rem; position: relative; }
+.exam-tier-card .exam-tier-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: .8rem; cursor: pointer; }
+.exam-tier-card .exam-tier-title { font-weight: 600; font-size: .9rem; display: flex; align-items: center; gap: .5rem; }
+.exam-tier-card .exam-tier-body { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+.exam-tier-card .exam-tier-body .field-group.full { grid-column: 1/-1; }
+.exam-tier-del { background: none; border: 1px solid var(--red); color: var(--red); border-radius: var(--radius-sm); padding: .2rem .5rem; cursor: pointer; font-size: .75rem; transition: var(--transition); }
+.exam-tier-del:hover { background: var(--red); color: #fff; }
+.exam-tier-collapse-icon { transition: var(--transition); }
+.exam-tier-card.collapsed .exam-tier-body { display: none; }
+.exam-tier-card.collapsed .exam-tier-collapse-icon { transform: rotate(-90deg); }
